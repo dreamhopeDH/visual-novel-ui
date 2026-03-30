@@ -8,6 +8,7 @@ function App() {
   const [apiUrl, setApiUrl] = useState('https://api.openai.com/v1');
   const [apiKey, setApiKey] = useState('');
   const [model, setModel] = useState('gpt-3.5-turbo');
+  const [proxyUrl, setProxyUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async (content: string) => {
@@ -32,9 +33,18 @@ function App() {
         cleanUrl = cleanUrl.slice(0, -1);
       }
 
+      let finalUrl = cleanUrl;
+      if (proxyUrl.trim()) {
+        let cleanProxyUrl = proxyUrl.trim();
+        if (!cleanProxyUrl.endsWith('/')) {
+          cleanProxyUrl += '/';
+        }
+        finalUrl = cleanProxyUrl + cleanUrl;
+      }
+
       const openai = new OpenAI({
         apiKey: apiKey,
-        baseURL: cleanUrl,
+        baseURL: finalUrl,
         dangerouslyAllowBrowser: true, // Required for running in browser
       });
 
@@ -73,6 +83,8 @@ function App() {
         setApiKey={setApiKey}
         model={model}
         setModel={setModel}
+        proxyUrl={proxyUrl}
+        setProxyUrl={setProxyUrl}
       />
       <ChatArea
         messages={messages}

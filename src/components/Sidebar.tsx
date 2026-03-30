@@ -7,9 +7,11 @@ interface SidebarProps {
   setApiKey: (key: string) => void;
   model: string;
   setModel: (model: string) => void;
+  proxyUrl: string;
+  setProxyUrl: (url: string) => void;
 }
 
-export function Sidebar({ apiUrl, setApiUrl, apiKey, setApiKey, model, setModel }: SidebarProps) {
+export function Sidebar({ apiUrl, setApiUrl, apiKey, setApiKey, model, setModel, proxyUrl, setProxyUrl }: SidebarProps) {
   return (
     <div className="w-80 bg-slate-900 border-r border-slate-800 h-screen flex flex-col p-4 text-slate-300">
       <div className="flex items-center gap-2 mb-8 text-white font-semibold text-xl">
@@ -58,6 +60,23 @@ export function Sidebar({ apiUrl, setApiUrl, apiKey, setApiKey, model, setModel 
             placeholder="gpt-3.5-turbo"
             className="px-3 py-2 bg-slate-800 border border-slate-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           />
+        </div>
+
+        <div className="flex flex-col gap-2 mt-2 border-t border-slate-800 pt-4">
+          <label htmlFor="proxyUrl" className="text-sm font-medium text-slate-400">
+            CORS Proxy URL (Optional)
+          </label>
+          <input
+            id="proxyUrl"
+            type="text"
+            value={proxyUrl}
+            onChange={(e) => setProxyUrl(e.target.value)}
+            placeholder="http://localhost:8080/"
+            className="px-3 py-2 bg-slate-800 border border-slate-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm"
+          />
+          <span className="text-xs text-slate-500">
+            If your API provider blocks browser requests (CORS error), you can route traffic through a trusted local proxy.
+          </span>
         </div>
       </div>
 
